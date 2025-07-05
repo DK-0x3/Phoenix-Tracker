@@ -1,7 +1,23 @@
 .Navbar {
+  display: flex;
   box-sizing: border-box;
   height: var(--navbar-height);
   background-color: transparent;
   padding: var(--navbar-padding);
-  border: 1px solid red;
+
+  p {
+    margin: 0 0 0 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+  }
+}
+
+.Logo {
+  height: 30px;
+  width: 30px;
+}
+
+.highlightTitle {
+  color: var(--orange);
 }
