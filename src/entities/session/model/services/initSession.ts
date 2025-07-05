@@ -2,6 +2,7 @@ import { ISessionState } from '../types/ISessionState';
 import { setSessionData } from '../sessionSlice';
 import { StorageKeyType } from '../../../../shared/types/LocalStorageKey';
 import { AppThunk } from '../../../../app/store/store';
+import { Language } from '../../../../shared/types/Language';
 
 /**
  * Инициализирует сессию один раз при загрузке, если она отсутствует.
@@ -32,6 +33,7 @@ export const initSession = (): AppThunk => (dispatch) => {
 	const newSession: ISessionState = {
 		sessionId: newSessionId,
 		lastActivity: now,
+		language: Language.RUSSIAN,
 	};
 
 	dispatch(setSessionData(newSession));

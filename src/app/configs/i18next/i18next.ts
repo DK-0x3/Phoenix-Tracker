@@ -10,7 +10,7 @@ i18n
 	.use(initReactI18next) // Для интеграции с React
 	.init({
 		fallbackLng: 'ru', // Язык по умолчанию
-		supportedLngs: ['en', 'ru'], // Поддерживаемые языки
+		supportedLngs: ['en', 'ru', 'zh'], // Поддерживаемые языки
 		debug: true, // Для отладки
 		interpolation: {
 			escapeValue: false, // Отключение экранирования

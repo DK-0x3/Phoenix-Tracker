@@ -1,0 +1,27 @@
+.LangSwitcher {
+  position: absolute;
+  top: 10;
+  right: 0;
+  overflow: hidden;
+  height: 1.5em; // высота одного языка
+  width: 3em;
+  background-color: var(--gray-dark);
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: height 0.3s ease;
+
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE/Edge */
+
+  div:hover {
+    color: var(--orange);
+  }
+
+  &:hover {
+    height: 4.5em; // 3 строки: два языка + текущий
+  }
+}
