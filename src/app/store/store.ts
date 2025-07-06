@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { reducers } from './reducers';
+import { InsightsAPI } from '../../entities/coin-stats/insights/api/InsightsAPI';
 
 const store = configureStore({
 	reducer: reducers,
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware().concat(),
+		getDefaultMiddleware().concat(InsightsAPI.middleware),
 });
 
 // Экспорт типов для глобального состояния и dispatch

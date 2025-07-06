@@ -1,6 +1,6 @@
 import { ISessionState } from '../types/ISessionState';
 import { setSessionData } from '../sessionSlice';
-import { StorageKeyType } from '../../../../shared/types/LocalStorageKey';
+import { LocalStorageKey } from '../../../../shared/types/LocalStorageKey';
 import { AppThunk } from '../../../../app/store/store';
 import { Language } from '../../../../shared/types/Language';
 
@@ -8,7 +8,7 @@ import { Language } from '../../../../shared/types/Language';
  * Инициализирует сессию один раз при загрузке, если она отсутствует.
  */
 export const initSession = (): AppThunk => (dispatch) => {
-	const session = localStorage.getItem(StorageKeyType.SESSION);
+	const session = localStorage.getItem(LocalStorageKey.SESSION);
 	const now = Date.now();
 
 	if (session) {
@@ -19,12 +19,12 @@ export const initSession = (): AppThunk => (dispatch) => {
 				console.log('найдена сохранённая сессия', data);
 				const updatedSession = { ...data, lastActivity: now };
 				dispatch(setSessionData(updatedSession));
-				localStorage.setItem(StorageKeyType.SESSION, JSON.stringify(updatedSession));
+				localStorage.setItem(LocalStorageKey.SESSION, JSON.stringify(updatedSession));
 				return;
 			}
 		} catch (e) {
 			console.warn('Ошибка при чтении session из localStorage', e);
-			localStorage.removeItem(StorageKeyType.SESSION);
+			localStorage.removeItem(LocalStorageKey.SESSION);
 		}
 	}
 
@@ -37,6 +37,6 @@ export const initSession = (): AppThunk => (dispatch) => {
 	};
 
 	dispatch(setSessionData(newSession));
-	localStorage.setItem(StorageKeyType.SESSION, JSON.stringify(newSession));
+	localStorage.setItem(LocalStorageKey.SESSION, JSON.stringify(newSession));
 	console.log('создана новая сессия', newSession);
 };

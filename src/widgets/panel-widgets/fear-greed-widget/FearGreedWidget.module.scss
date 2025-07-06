@@ -1,0 +1,85 @@
+.FlipMain {
+  background-color: transparent;
+  perspective: 1000px;
+}
+
+.FlipInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.FlipMain:hover .FlipInner {
+  transform: rotateY(180deg);
+}
+
+.FearGreedWidgetFront, .FearGreedWidgetBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.FearGreedWidgetFront {
+  background-color: var(--dark-secondary-color);
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  span {
+    font-weight: bold;
+    color: var(--orange);
+  }
+
+  .FearGreedContainer {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 60%;
+    position: relative;
+
+    span {
+      font-size: 40px;
+      margin-top: -20%;
+      color: white;
+    }
+
+    div {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(20deg); /* ✅ Один transform */
+      z-index: 2;
+      width: 100%;
+      text-align: left;
+      height: 20px;
+    }
+  }
+
+  .FearGreedColor {
+    width: auto;
+    height: auto;
+  }
+}
+
+.FearGreedWidgetBack {
+  background-color: var(--dark-secondary-color);
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  transform: rotateY(180deg);
+  padding: 5px;
+  box-sizing: border-box;
+
+  span {
+    color: var(--orange);
+    font-weight: bold;
+  }
+}
