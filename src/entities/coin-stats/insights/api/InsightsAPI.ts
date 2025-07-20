@@ -16,6 +16,10 @@ export const InsightsAPI = createApi({
 	endpoints: builder => ({
 		fetchFearAndGreed: builder.query<IResponseFearAndGreed, void>({
 			query: () => '/insights/fear-and-greed',
+			transformResponse: (response: IResponseFearAndGreed) => ({
+				...response,
+				fetchedAt: new Date().toISOString(),
+			}),
 		}),
 	}),
 });

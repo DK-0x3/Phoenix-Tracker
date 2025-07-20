@@ -15,5 +15,6 @@ export interface IResponseFearAndGreed {
         value: number,
         value_classification: string,
         timestamp: number,
-    }
+    },
+    fetchedAt: string;
 }

@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { IResponseFearAndGreed } from '../../../entities/coin-stats/insights/model/IResponseFearAndGreed';
-import { LocalStorageKey } from '../../types/LocalStorageKey';
 import { useFetchFearAndGreedQuery } from '../../../entities/coin-stats/insights/api/InsightsAPI';
 // eslint-disable-next-line import/named
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
@@ -13,42 +12,45 @@ export interface IUseFearAndGreedData {
     error: FetchBaseQueryError | SerializedError | undefined;
 }
 
+// Проверка: истекла ли дневная валидность до 00:00 UTC
+const isExpired = (fetchedAt: string) => {
+	const now = new Date();
+	const fetchedDate = new Date(fetchedAt);
+
+	// День, когда данные были получены (UTC)
+	const fetchedUTCDate = new Date(Date.UTC(
+		fetchedDate.getUTCFullYear(),
+		fetchedDate.getUTCMonth(),
+		fetchedDate.getUTCDate()
+	));
+
+	// Следующий день 00:00 UTC
+	const expiryTime = new Date(fetchedUTCDate.getTime() + 24 * 60 * 60 * 1000);
+
+	return now.getTime() >= expiryTime.getTime();
+};
+
 /**
- * Хук получения индекса страха и жадности с суточным кэшированием.
- * Загружает данные через RTK Query, а затем сохраняет в localStorage,
- * чтобы избежать лишних запросов в течение одного дня (UTC).
+ * Хук получения индекса страха и жадности с redux-persist и суточной валидностью.
+ * Данные сохраняются в redux-кэше и обновляются после 00:00 по UTC.
  */
 export const useFearAndGreedData = (): IUseFearAndGreedData => {
-	const [cachedData, setCachedData] = useState<IResponseFearAndGreed | null>(null);
-	const todayUTC = new Date().toISOString().slice(0, 10);
-	const lastFetchDate = localStorage.getItem(LocalStorageKey.FEAR_AND_GREED_LAST_UPDATE);
-	const shouldSkip = lastFetchDate === todayUTC;
+	const {
+		data,
+		isLoading,
+		error,
+		refetch,
+	} = useFetchFearAndGreedQuery();
 
-	const { data, isLoading, error } = useFetchFearAndGreedQuery(undefined, { skip: shouldSkip });
-
-	// Когда получили свежие данные — сохранить в кэш
 	useEffect(() => {
-		if (data) {
-			localStorage.setItem(LocalStorageKey.FEAR_AND_GREED_OBJECT, JSON.stringify(data));
-			localStorage.setItem(LocalStorageKey.FEAR_AND_GREED_LAST_UPDATE, todayUTC);
+		if (data?.fetchedAt && isExpired(data.fetchedAt)) {
+			refetch();
 		}
-	}, [data, todayUTC]);
+	}, [data, refetch]);
 
-	// Если skip=true и нет свежих данных — взять из кэша
-	useEffect(() => {
-		if (!shouldSkip || data) return;
-		const raw = localStorage.getItem(LocalStorageKey.FEAR_AND_GREED_OBJECT);
-		if (raw) {
-			try {
-				const parsed = JSON.parse(raw);
-				setCachedData(parsed);
-			} catch (e) {
-				console.error('Ошибка парсинга кэша:', e);
-			}
-		}
-	}, [shouldSkip, data]);
-
-	const resultData = data ?? cachedData;
-
-	return { data: resultData, isLoading, error };
+	return {
+		data: data ?? null,
+		isLoading,
+		error,
+	};
 };
