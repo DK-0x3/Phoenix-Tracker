@@ -4,7 +4,27 @@ import FearGreedCursor from '../../../shared/assets/svg/fear-greed-cursor.svg';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFearAndGreedData } from '../../../shared/lib/hooks/useFearAndGreedData';
+import { FlipWrapper } from '../../../shared/ui/flip-wrapper/FlipWrapper';
+import { Skeleton } from '../../../shared/ui/skeleton/Skeleton';
 
+/**
+ * Компонент-виджет отображения индекса страха и жадности.
+ *
+ * Использует визуальный индикатор с вращающейся стрелкой и значением текущего уровня.
+ * По наведению компонент переворачивается, отображая дополнительную информацию
+ * о значении индекса и его значении на рынке.
+ *
+ * Источник данных — хук `useFearAndGreedData`, подключающий API.
+ * Для анимации переворота используется `FlipWrapper`.
+ *
+ * Примеры состояний:
+ * - Лицевая сторона (`frontContent`): круговая шкала и значение.
+ * - Обратная сторона (`backContent`): текстовое пояснение.
+ *
+ * Внутри используются SVG-иконки `fear-greed.svg` и `fear-greed-cursor.svg`.
+ *
+ * @constructor
+ */
 export const FearGreedWidget = () => {
 	const { t } = useTranslation();
 	const { data, isLoading, error } = useFearAndGreedData();
@@ -20,37 +40,48 @@ export const FearGreedWidget = () => {
 		return <div>{t('Ошибка загрузки')}</div>;
 	}
 
-	return (
-		<div className={styles.FlipMain}>
-			<div className={styles.FlipInner}>
-
-				<div className={styles.FearGreedWidgetFront}>
-					<div className={styles.FearGreedContainer}>
-						<FearGreed className={styles.FearGreedColor} />
-						<span style={{ fontSize: isLoading ? '14px' : '40px' }}>
-							{isLoading ? 'Загрузка...' : data?.now.value ?? '_'}
-						</span>
-						<div
-							style={{
-								transform: `translate(-50%, -50%) rotate(${angle}deg)`,
-								transition: 'transform 0.4s ease-in-out',
-							}}
-						>
-							<FearGreedCursor style={{ marginLeft: '-7px' }} />
-						</div>
-					</div>
-					<span>{t(data?.now.value_classification ?? 'Ошибка')}</span>
-				</div>
-
-				<div className={styles.FearGreedWidgetBack}>
-					{/* eslint-disable-next-line i18next/no-literal-string */}
-					<span>
-						Fear & Greed Indicator:
-					</span>
-					{t('отражает доминирующие эмоции на рынке: страх или жадность.')}
-				</div>
-
+	if (isLoading) {
+		// Показываем Skeleton-заглушку на месте виджета
+		return (
+			<div className={styles.FearGreedWidgetSkeleton}>
+				<Skeleton
+					baseColor='#2b2b39'
+					width="100%"
+					height='100%'
+					borderRadius={12}
+				/>
 			</div>
-		</div>
+		);
+	}
+
+	return (
+		<FlipWrapper frontContent={
+			<div className={styles.FearGreedWidgetFront}>
+				<div className={styles.FearGreedContainer}>
+					<FearGreed className={styles.FearGreedColor} />
+					<span style={{ fontSize: isLoading ? '14px' : '40px' }}>
+						{isLoading ? 'Загрузка...' : data?.now.value ?? '_'}
+					</span>
+					<div
+						style={{
+							transform: `translate(-50%, -50%) rotate(${angle}deg)`,
+							transition: 'transform 0.4s ease-in-out',
+						}}
+					>
+						<FearGreedCursor style={{ marginLeft: '-7px' }} />
+					</div>
+				</div>
+				<span>{t(data?.now.value_classification ?? 'Ошибка')}</span>
+			</div>
+		} backContent={
+			<div className={styles.FearGreedWidgetBack}>
+				{/* eslint-disable-next-line i18next/no-literal-string */}
+				<span>
+					Fear & Greed Indicator:
+				</span>
+				{t('отражает доминирующие эмоции на рынке: страх или жадность.')}
+			</div>
+		}
+		/>
 	);
 };

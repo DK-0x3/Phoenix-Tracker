@@ -1,6 +1,6 @@
 .LangSwitcher {
   position: absolute;
-  top: 10;
+  top: 10px;
   right: 0;
   overflow: hidden;
   height: 1.5em; // высота одного языка
@@ -23,5 +23,6 @@
 
   &:hover {
     height: 4.5em; // 3 строки: два языка + текущий
+    background-color: var(--dark-secondary-main-color);
   }
 }

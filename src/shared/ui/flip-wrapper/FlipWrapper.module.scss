@@ -1,0 +1,41 @@
+.FlipWrapper {
+  background-color: transparent;
+  perspective: 1000px;
+}
+
+.FlipWrapper:hover .FlipInner {
+  transform: rotateY(180deg);
+}
+
+.FlipInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.FlipWrapperFront, .FlipWrapperBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.FlipWrapperFront {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.FlipWrapperBack {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  transform: rotateY(180deg);
+  box-sizing: border-box;
+}

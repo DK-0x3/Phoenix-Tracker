@@ -13,6 +13,11 @@ export interface IUseFearAndGreedData {
     error: FetchBaseQueryError | SerializedError | undefined;
 }
 
+/**
+ * Хук получения индекса страха и жадности с суточным кэшированием.
+ * Загружает данные через RTK Query, а затем сохраняет в localStorage,
+ * чтобы избежать лишних запросов в течение одного дня (UTC).
+ */
 export const useFearAndGreedData = (): IUseFearAndGreedData => {
 	const [cachedData, setCachedData] = useState<IResponseFearAndGreed | null>(null);
 	const todayUTC = new Date().toISOString().slice(0, 10);
@@ -45,5 +50,5 @@ export const useFearAndGreedData = (): IUseFearAndGreedData => {
 
 	const resultData = data ?? cachedData;
 
-	return { data: resultData, isLoading: isLoading, error: error };
+	return { data: resultData, isLoading, error };
 };
