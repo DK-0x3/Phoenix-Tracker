@@ -3,12 +3,20 @@ import { reducers } from './reducers';
 import { InsightsAPI } from '../../entities/coin-stats/insights/api/InsightsAPI';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { CoinsStatsAPI } from '../../entities/coin-stats/coins/api/CoinsStatsAPI';
+import { CoinsGeckoAPI } from '../../entities/coin-gecko/coins/api/CoinsGeckoAPI';
+import { GlobalGeckoAPI } from '../../entities/coin-gecko/global/api/GlobalGeckoAPI';
 
 const persistConfig = {
 	key: 'root',
 	version: 1,
 	storage,
-	whitelist: [InsightsAPI.reducerPath],
+	whitelist: [
+		InsightsAPI.reducerPath,
+		CoinsStatsAPI.reducerPath,
+		CoinsGeckoAPI.reducerPath,
+		GlobalGeckoAPI.reducerPath
+	],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -18,7 +26,12 @@ const store = configureStore({
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
 			serializableCheck: false, // иначе redux-persist будет ругаться
-		}).concat(InsightsAPI.middleware),
+		}).concat(
+			InsightsAPI.middleware,
+			CoinsStatsAPI.middleware,
+			CoinsGeckoAPI.middleware,
+			GlobalGeckoAPI.middleware
+		),
 });
 
 export const persistor = persistStore(store);

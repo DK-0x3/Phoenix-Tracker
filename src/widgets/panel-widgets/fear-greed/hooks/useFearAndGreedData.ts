@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { IResponseFearAndGreed } from '../../../entities/coin-stats/insights/model/IResponseFearAndGreed';
-import { useFetchFearAndGreedQuery } from '../../../entities/coin-stats/insights/api/InsightsAPI';
+import { IResponseFearAndGreed } from '../../../../entities/coin-stats/insights/model/IResponseFearAndGreed';
+import { useFetchFearAndGreedQuery } from '../../../../entities/coin-stats/insights/api/InsightsAPI';
 // eslint-disable-next-line import/named
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 // eslint-disable-next-line import/named
 import { SerializedError } from '@reduxjs/toolkit';
-import { isExpiredByUTC } from '../date/isExpiredByUTC';
+import { isExpiredByUTC } from '../../../../shared/lib/date/isExpiredByUTC';
 
 export interface IUseFearAndGreedData {
     data: IResponseFearAndGreed | null,

@@ -3,7 +3,7 @@ import FearGreed from '../../../shared/assets/svg/fear-greed.svg';
 import FearGreedCursor from '../../../shared/assets/svg/fear-greed-cursor.svg';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFearAndGreedData } from '../../../shared/lib/hooks/useFearAndGreedData';
+import { useFearAndGreedData } from './hooks/useFearAndGreedData';
 import { FlipWrapper } from '../../../shared/ui/flip-wrapper/FlipWrapper';
 import { Skeleton } from '../../../shared/ui/skeleton/Skeleton';
 
@@ -20,9 +20,6 @@ import { Skeleton } from '../../../shared/ui/skeleton/Skeleton';
  * Примеры состояний:
  * - Лицевая сторона (`frontContent`): круговая шкала и значение.
  * - Обратная сторона (`backContent`): текстовое пояснение.
- *
- * Внутри используются SVG-иконки `fear-greed.svg` и `fear-greed-cursor.svg`.
- *
  * @constructor
  */
 export const FearGreedWidget = () => {
@@ -41,16 +38,13 @@ export const FearGreedWidget = () => {
 	}
 
 	if (isLoading) {
-		// Показываем Skeleton-заглушку на месте виджета
 		return (
-			<div className={styles.FearGreedWidgetSkeleton}>
-				<Skeleton
-					baseColor='#2b2b39'
-					width="100%"
-					height='100%'
-					borderRadius={12}
-				/>
-			</div>
+			<Skeleton
+				baseColor='#2b2b39'
+				width="100%"
+				height='100%'
+				borderRadius={12}
+			/>
 		);
 	}
 
@@ -81,7 +75,7 @@ export const FearGreedWidget = () => {
 				</span>
 				{t('отражает доминирующие эмоции на рынке: страх или жадность.')}
 			</div>
-		}
+		} delay={100}
 		/>
 	);
 };

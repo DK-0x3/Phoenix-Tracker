@@ -2,7 +2,7 @@ import { useAppDispatch } from '../../lib/hooks/useAppDispatch';
 import { i18nToEnumMap, Language, shortCodes } from '../../types/Language';
 import i18n from 'i18next';
 import { useState } from 'react';
-import { setSessionLanguage } from '../../../entities/session/model/sessionSlice';
+import { setSessionLanguage } from '../../../entities/session/model/store/sessionSlice';
 import styles from './LangSwitcher.module.scss';
 
 export const LangSwitcher = () => {

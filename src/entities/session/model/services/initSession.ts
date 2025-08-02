@@ -1,5 +1,5 @@
 import { ISessionState } from '../types/ISessionState';
-import { setSessionData } from '../sessionSlice';
+import { setSessionData } from '../store/sessionSlice';
 import { LocalStorageKey } from '../../../../shared/types/LocalStorageKey';
 import { AppThunk } from '../../../../app/store/store';
 import { Language } from '../../../../shared/types/Language';

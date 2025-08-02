@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 export interface IFlipWrapperProps {
     frontContent: ReactNode,
     backContent: ReactNode,
+	delay?: number;
 }
 
 /**
@@ -24,21 +25,24 @@ export interface IFlipWrapperProps {
  * Пропсы:
  * - `frontContent` — содержимое лицевой стороны (ReactNode).
  * - `backContent` — содержимое обратной стороны (ReactNode).
+ * - `delay?` — Задержка переворота при наведении.
  *
  * Требования:
  * Родительский контейнер или сам компонент должен иметь фиксированные размеры
  * (ширину и высоту), чтобы анимация работала корректно.
  */
 export const FlipWrapper = (props: IFlipWrapperProps) => {
-	const { frontContent, backContent } = props;
+	const { frontContent, backContent, delay = 0 } = props;
 
 	return (
 		<div className={styles.FlipWrapper}>
-			<div className={styles.FlipInner}>
+			<div
+				className={styles.FlipInner}
+				style={{ transitionDelay: `${delay}ms` }}
+			>
 				<div className={styles.FlipWrapperFront}>
 					{frontContent}
 				</div>
-
 				<div className={styles.FlipWrapperBack}>
 					{backContent}
 				</div>
