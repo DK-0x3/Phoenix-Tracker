@@ -15,7 +15,8 @@ const persistConfig = {
 		InsightsAPI.reducerPath,
 		CoinsStatsAPI.reducerPath,
 		CoinsGeckoAPI.reducerPath,
-		GlobalGeckoAPI.reducerPath
+		GlobalGeckoAPI.reducerPath,
+		'favoriteCoinsSlice',
 	],
 };
 

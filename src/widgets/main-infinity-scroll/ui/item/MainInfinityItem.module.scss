@@ -1,0 +1,51 @@
+.MainInfinityItem {
+  display: grid;
+  grid-template-columns: 1fr 2fr 9fr 7fr 5fr 5fr 5fr 5fr 5fr 6fr 3fr;
+  height: 60px;
+  align-items: center;
+
+  &:hover {
+    background-color: var(--color-dark-600);
+  }
+
+  .Rank {
+
+  }
+
+  .Icon {
+    height: inherit;
+    padding: 15px;
+    box-sizing: border-box;
+
+    img {
+      max-height: 100%;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+  }
+
+  .Name {
+    font-weight: bold;
+  }
+
+  .Symbol {
+    color: var(--dark-gray);
+  }
+
+  .Price {
+    font-weight: bold;
+  }
+
+  .MarketCap {
+    font-weight: bold;
+  }
+
+  .Volume {
+    color: var(--dark-gray);
+  }
+
+  .Star {
+    cursor: pointer;
+  }
+}

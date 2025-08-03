@@ -1,7 +1,7 @@
 import styles from './PanelWidgetsContainer.module.scss';
 import { FearGreedWidget } from '../../panel-widgets/fear-greed/FearGreedWidget';
 import { useEffect, useRef } from 'react';
-import { CoinWidget } from '../../panel-widgets/token/CoinWidget';
+import { CoinWidget } from '../../panel-widgets/coin/CoinWidget';
 import { DominanceWidget } from '../../panel-widgets/dominance/DominanceWidget';
 
 export const PanelWidgetsContainer = () => {

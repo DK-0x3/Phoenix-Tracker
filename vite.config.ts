@@ -10,4 +10,13 @@ export default defineConfig({
 			include: '**/*.svg',
 		}),
 	],
+	server: {
+		proxy: {
+			'/coingecko': {
+				target: 'https://api.coingecko.com/api/v3',
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/coingecko/, ''),
+			},
+		},
+	},
 });

@@ -13,6 +13,19 @@
   "Ошибка": "Error",
   "отражает доминирующие эмоции на рынке: страх или жадность.": "It reflects the dominant emotions in the market: fear or greed.",
   "Рыночная кап.": "Market Cap",
+  "Доминация": "Dominance",
+  "Избранные монеты готовы к запуску, но на этом все": "Favorite coins are ready for launch, but that's all for now",
+  "Лого": "Logo",
+  "Название": "Name",
+  "Цена": "Price",
+  "1ч %": "1h %",
+  "24ч %": "24h %",
+  "7д %": "7d %",
+  "Рын. Кап.": "Market Cap",
   "Объем 24ч": "24h Volume",
-  "Доминация": "Dominance"
+  "Оборот": "Circulating Supply",
+  "Все": "All",
+  "Избранное": "Favorites",
+  "Загрузка": "Loading",
+  "Больше данных нет": "No more data"
 }

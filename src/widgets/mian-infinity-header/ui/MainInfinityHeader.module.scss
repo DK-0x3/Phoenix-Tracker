@@ -1,0 +1,33 @@
+.MainInfinityHeader {
+  display: grid;
+  grid-template-rows: 1fr 2px 1fr;
+  height: 80px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  .NavHeader {
+    display: flex;
+    gap: 20px;
+
+    .Active {
+      color: var(--orange);
+    }
+
+    a {
+      color: white;
+    }
+  }
+
+  .Separator {
+    background-color: var(--dark-gray);
+    height: 100%;
+  }
+
+  .InfinityScrollHeader {
+    display: grid;
+    grid-template-columns: 1fr 2fr 9fr 7fr 5fr 5fr 5fr 5fr 5fr 6fr 3fr;
+    align-items: center;
+    color: var(--dark-gray);
+    font-weight: bold;
+  }
+}

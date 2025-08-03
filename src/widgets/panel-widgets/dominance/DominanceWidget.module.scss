@@ -1,9 +1,10 @@
 .DominanceWidget {
   height: 100%;
-  background-color: var(--dark-secondary-color);
+  background-color: var(--color-dark-700);
   border-radius: 12px;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--box-shadow-dark-700);
 
   .DominanceWidgetOverlay {
     position: absolute;

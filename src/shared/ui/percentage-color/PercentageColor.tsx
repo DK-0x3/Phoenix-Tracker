@@ -9,7 +9,13 @@ interface IPercentageColorProps {
 export const PercentageColor = (props: IPercentageColorProps) => {
 	const { percent, className } = props;
 
-	let percentString = percent.toString();
+	let percentString: string = '';
+
+	if (typeof percent === 'string') {
+		percentString = percent;
+	} else {
+		percentString = percent.toFixed(2);
+	}
 
 	const resultColor = percentString.startsWith('-') ? 'var(--red)' : 'var(--green)';
 

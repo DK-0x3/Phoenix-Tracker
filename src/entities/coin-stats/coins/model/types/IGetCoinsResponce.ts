@@ -1,6 +1,6 @@
 import { ICoin } from '../../../../../shared/types/ICoin';
 
-interface IGetCoinsResponseResponse {
+interface IGetCoinsResponse {
     result: ICoin[];
     meta: {
         page: number,
@@ -12,4 +12,4 @@ interface IGetCoinsResponseResponse {
     }
 }
 
-export default IGetCoinsResponseResponse;
+export default IGetCoinsResponse;

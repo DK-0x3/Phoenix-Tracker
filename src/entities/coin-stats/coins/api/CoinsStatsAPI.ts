@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ENV } from '../../../../shared/types/ENV';
 import { ICoin } from '../../../../shared/types/ICoin';
-import IGetCoinsResponseResponse from '../model/types/IGetCoinsResponce';
+import IGetCoinsResponse from '../model/types/IGetCoinsResponce';
 import IGetCoinsParams from '../model/types/IGetCoinsParams';
 
 export const CoinsStatsAPI = createApi({
@@ -22,7 +22,7 @@ export const CoinsStatsAPI = createApi({
 				...response,
 			}),
 		}),
-		getCoins: builder.query<IGetCoinsResponseResponse, IGetCoinsParams | void>({
+		getCoins: builder.query<IGetCoinsResponse, IGetCoinsParams | void>({
 			query: (params) => {
 				if (!params) return '';
 
@@ -42,4 +42,4 @@ export const CoinsStatsAPI = createApi({
 	}),
 });
 
-export const { useGetCoinByIdQuery, useGetCoinsQuery } = CoinsStatsAPI;
+export const { useGetCoinByIdQuery, useGetCoinsQuery, useLazyGetCoinByIdQuery, useLazyGetCoinsQuery } = CoinsStatsAPI;

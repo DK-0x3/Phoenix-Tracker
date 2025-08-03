@@ -10,7 +10,7 @@ export interface ICoin {
     symbol: string,
     rank: number,
     price: number,
-    priceBtc: number,
+    priceBtc: number | null,
     volume: number,
     marketCap: number,
     availableSupply: number,
@@ -19,8 +19,8 @@ export interface ICoin {
     priceChange1h: number,
     priceChange1d: number,
     priceChange1w: number,
-    redditUrl: string,
-    twitterUrl: string,
-    contractAddresses: IContractAddress[],
-    explorers: string[]
+    redditUrl: string | null,
+    twitterUrl: string | null,
+    contractAddresses: IContractAddress[] | null,
+    explorers: string[] | null,
 }

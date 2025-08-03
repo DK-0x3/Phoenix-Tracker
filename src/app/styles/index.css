@@ -42,7 +42,7 @@ body {
   /*place-items: center;*/
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--dark-main-color);
+  background-color: var(--color-dark-900);
   font-family: 'Ubuntu', sans-serif;
   font-weight: 400;
 }

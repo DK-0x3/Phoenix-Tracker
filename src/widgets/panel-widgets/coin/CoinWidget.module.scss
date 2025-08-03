@@ -3,8 +3,9 @@
   overflow: hidden;
   height: 100%;
   border-radius: 12px;
+  background-color: var(--color-dark-700);
+  box-shadow: var(--box-shadow-dark-700);
 }
-
 
 .Overlay {
   position: absolute;
@@ -29,7 +30,6 @@
 }
 
 .CoinWidget {
-  background-color: var(--dark-secondary-color);
   display: grid;
   grid-template-rows: 1.5fr 1.5fr 1fr 1fr;
   padding: 10px;

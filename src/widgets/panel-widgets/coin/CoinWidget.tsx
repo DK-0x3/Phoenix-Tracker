@@ -21,7 +21,7 @@ export const CoinWidget = (props: ICoinWidgetProps) => {
 	const { t } = useTranslation();
 
 	const { data, error, isLoading } = useGetCoinByIdQuery(coinId, {
-		pollingInterval: 600000, // 10 минут
+		pollingInterval: 300000,
 	});
 
 	if (isLoading || !data) {

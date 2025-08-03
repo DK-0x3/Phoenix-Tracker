@@ -1,5 +1,6 @@
 .FearGreedWidgetFront {
-  background-color: var(--dark-secondary-color);
+  background-color: var(--color-dark-700);
+  box-shadow: var(--box-shadow-dark-700);
   border-radius: 20px;
   justify-content: center;
   align-items: center;
@@ -46,7 +47,7 @@
 }
 
 .FearGreedWidgetBack {
-  background-color: var(--dark-secondary-color);
+  background-color: var(--color-dark-700);
   border-radius: 20px;
   justify-content: center;
   align-items: center;
