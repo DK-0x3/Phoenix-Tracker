@@ -3,8 +3,7 @@ import { useGetCoinByIdQuery } from '../../../entities/coin-stats/coins/api/Coin
 import { Skeleton } from '../../../shared/ui/skeleton/Skeleton';
 import { useTranslation } from 'react-i18next';
 import { PercentageColor } from '../../../shared/ui/percentage-color/PercentageColor';
-import { CorrectPrice } from '../../../features/number/CorrectPrice';
-import { CorrectBigNumber } from '../../../features/number/CorrectBigNumber';
+import Utils from '../../../shared/lib/utils/Utils';
 
 export interface ICoinWidgetProps {
 	coinId: string;
@@ -21,7 +20,7 @@ export const CoinWidget = (props: ICoinWidgetProps) => {
 	const { t } = useTranslation();
 
 	const { data, error, isLoading } = useGetCoinByIdQuery(coinId, {
-		pollingInterval: 300000,
+		pollingInterval: Utils.Time.minutesToMs(5),
 	});
 
 	if (isLoading || !data) {
@@ -37,8 +36,8 @@ export const CoinWidget = (props: ICoinWidgetProps) => {
 		return <div>{t('Ошибка загрузки')}</div>;
 	}
 
-	const volume = CorrectBigNumber(data.volume);
-	const marketCap = CorrectBigNumber(data.marketCap);
+	const volume = Utils.Number.formatBigNumber(data.volume);
+	const marketCap = Utils.Number.formatBigNumber(data.marketCap);
 
 	return (
 		<div className={styles.CoinWidgetContainer}>
@@ -58,7 +57,7 @@ export const CoinWidget = (props: ICoinWidgetProps) => {
 						<img src={data.icon} alt='logo'/>
 					</div>
 					<div className={styles.Price}>
-						{CorrectPrice(data.price)} $
+						{Utils.Number.formatPrice(data.price)} $
 					</div>
 				</div>
 				<div className={styles.Volume}>

@@ -1,9 +1,16 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BaseQueryMeta, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ENV } from '../../../../shared/types/ENV';
 import IGetListCoinGeckoResponse from '../model/types/IGetListCoinGeckoResponse';
 import IGetCoinsMarketsGeckoResponse from '../model/types/IGetCoinsMarketsGeckoResponse';
 import IGetCoinsMarketsGeckoParams from '../model/types/IGetCoinsMarketsGeckoParams';
 import { ICoin } from '../../../../shared/types/ICoin';
+import IGetCoinChartByIdResponse, {
+	IGetCoinChartByIdParams,
+	IGetCoinChartByIdResponseData
+} from '../model/types/IGetCoinChartByIdResponse';
+// eslint-disable-next-line import/named
+import { UTCTimestamp } from 'lightweight-charts';
+import IGetCoinByIdResponse from '../model/types/getCoinById/IGetCoinByIdResponse';
 
 export const CoinsGeckoAPI = createApi({
 	reducerPath: 'coinsGeckoAPI',
@@ -96,8 +103,61 @@ export const CoinsGeckoAPI = createApi({
 
 				return coins;
 			}
+		}),
+		getCoinChartById: builder.query<IGetCoinChartByIdResponseData, IGetCoinChartByIdParams>({
+			query: (params) => {
+				const path = `/${params.coinId}/market_chart`;
+
+				const vsCurrency = params.vsCurrency ? params.vsCurrency : 'usd';
+				const days = params.days ? params.days : '1';
+
+				if (!params) return path;
+
+				const queryParams = new URLSearchParams();
+
+				queryParams.append('vs_currency', vsCurrency);
+				queryParams.append('days', days);
+
+				const queryString = queryParams.toString();
+				return `${path}${queryString ? `?${queryString}` : ''}`;
+			},
+			keepUnusedDataFor: 300,
+			transformResponse: (response: IGetCoinChartByIdResponse) => {
+				const result: IGetCoinChartByIdResponseData = {
+					prices: [],
+					marketCaps: [],
+					totalVolumes: [],
+				};
+
+				console.log(response);
+
+				response.prices.forEach(dotInfo => {
+					const time = dotInfo[0] ? dotInfo[0] : 0;
+					const price = dotInfo[1] ? dotInfo[1] : 0;
+
+					result.prices.push({
+						time: Math.floor(time / 1000) as UTCTimestamp,
+						value: price,
+					});
+				});
+
+				return result;
+			}
+		}),
+		getCoinById: builder.query<IGetCoinByIdResponse, string>({
+			query: (coinId) => `/${coinId}`,
+			keepUnusedDataFor: 300,
+			transformResponse: (response: IGetCoinByIdResponse) => {
+				return response;
+			},
 		})
 	}),
 });
 
-export const { useGetListCoinsQuery, useGetCoinsMarketsQuery, useLazyGetCoinsMarketsQuery } = CoinsGeckoAPI;
+export const {
+	useGetListCoinsQuery,
+	useGetCoinsMarketsQuery,
+	useLazyGetCoinsMarketsQuery,
+	useGetCoinChartByIdQuery,
+	useGetCoinByIdQuery,
+} = CoinsGeckoAPI;

@@ -5,7 +5,7 @@ import { useFetchFearAndGreedQuery } from '../../../../entities/coin-stats/insig
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 // eslint-disable-next-line import/named
 import { SerializedError } from '@reduxjs/toolkit';
-import { isExpiredByUTC } from '../../../../shared/lib/date/isExpiredByUTC';
+import Utils from '../../../../shared/lib/utils/Utils';
 
 export interface IUseFearAndGreedData {
     data: IResponseFearAndGreed | null,
@@ -26,7 +26,7 @@ export const useFearAndGreedData = (): IUseFearAndGreedData => {
 	} = useFetchFearAndGreedQuery();
 
 	useEffect(() => {
-		if (data?.fetchedAt && isExpiredByUTC(data.fetchedAt)) {
+		if (data?.fetchedAt && Utils.Date.isExpiredByUTC(data.fetchedAt)) {
 			refetch();
 		}
 	}, [data, refetch]);

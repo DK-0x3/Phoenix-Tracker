@@ -1,0 +1,101 @@
+.CoinPage {
+  display: grid;
+  grid-template-rows: 1fr 6.5fr 2.5fr;
+  align-items: center;
+  height: 100%;
+  padding: 10px;
+
+  .CoinPageTitle {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+
+    .MainInfo {
+      display: flex;
+      justify-content: space-between;
+
+      .LogoAndName {
+        display: flex;
+        gap: 10px;
+        font-size: 30px;
+        align-items: center;
+
+        .Logo {
+          max-width: 64px;
+        }
+
+        .Name {
+
+        }
+
+        .Symbol {
+          color: var(--dark-gray);
+        }
+      }
+
+      .PricesAndPercent {
+        display: flex;
+        align-items: center;
+
+        .Prices {
+
+
+          .PriceUSD {
+            font-size: 30px;
+          }
+
+          .PriceRUB {
+            color: var(--dark-gray);
+          }
+        }
+
+        .Percent {
+          margin-left: 15px;
+          font-size: 30px;
+        }
+      }
+
+      .MarketCap {
+        display: flex;
+        flex-direction: column;
+        font-size: 20px;
+
+        .Title {
+          color: var(--dark-gray);
+
+          .info {
+            margin-left: 5px;
+            width: 15px;
+            height: 15px;
+          }
+        }
+
+        .Value {
+
+        }
+      }
+    }
+
+    .CoinAboutAs {
+
+    }
+  }
+
+  .CoinPageMain {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: 15px;
+    height: inherit;
+
+    .ChartContainer {
+      background-color: var(--color-dark-600);
+      border-radius: 20px;
+
+      .Chart {
+        width: 100%;
+        height: 100%;
+        min-width: 0;   /* важно для grid, чтобы ограничить растягивание */
+        min-height: 0;  /* важно для grid, чтобы контейнер сжимался */
+      }
+    }
+  }
+}

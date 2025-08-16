@@ -13,7 +13,7 @@ export const PanelWidgetsContainer = () => {
 
 		const onWheel = (e: WheelEvent) => {
 			if (e.deltaY === 0) return;
-			e.preventDefault(); // чтобы не было вертикального скролла
+			e.preventDefault();
 			el.scrollLeft += e.deltaY;
 		};
 
@@ -27,10 +27,6 @@ export const PanelWidgetsContainer = () => {
 				<FearGreedWidget />
 				<CoinWidget coinId='bitcoin'/>
 				<CoinWidget coinId='ethereum'/>
-				{/*<FlipWrapper*/}
-				{/*	frontContent={<div style={{ backgroundColor: 'red', width: '100%', height: '100%' }}>front</div>}*/}
-				{/*	backContent={<div style={{ backgroundColor: 'blue', width: '100%', height: '100%' }}>back</div>}*/}
-				{/*/>*/}
 				<DominanceWidget/>
 				<div style={{ backgroundColor: 'red' }}></div>
 				<div style={{ backgroundColor: 'red' }}></div>

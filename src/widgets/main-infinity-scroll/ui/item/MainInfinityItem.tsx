@@ -1,8 +1,6 @@
 import styles from './MainInfinityItem.module.scss';
 import { ICoin } from '../../../../shared/types/ICoin';
-import { CorrectPrice } from '../../../../features/number/CorrectPrice';
 import { PercentageColor } from '../../../../shared/ui/percentage-color/PercentageColor';
-import { CorrectBigNumber } from '../../../../features/number/CorrectBigNumber';
 import StarSVG from '../../../../shared/assets/svg/star.svg';
 import { IconCoin } from '../../../../shared/ui/icon-coin/ui/IconCoin';
 import { useAppDispatch } from '../../../../shared/lib/hooks/useAppDispatch';
@@ -13,6 +11,7 @@ import {
 import { useSelector } from 'react-redux';
 import { getFavoriteCoins } from '../../../../entities/coin-stats/coins/model/store/FavoriteCoinsSelectors';
 import { useState } from 'react';
+import Utils from '../../../../shared/lib/utils/Utils';
 
 export interface IMainInfinityItemProps {
 	coin: ICoin;
@@ -26,9 +25,9 @@ export const MainInfinityItem = (props: IMainInfinityItemProps) => {
 
 	const [isFavorite, setIsFavorite] = useState(favorites.includes(coin.id));
 
-	const marketCap = CorrectBigNumber(coin.marketCap);
-	const volume = CorrectBigNumber(coin.volume);
-	const usedEmission = CorrectBigNumber(coin.availableSupply);
+	const marketCap = Utils.Number.formatBigNumber(coin.marketCap);
+	const volume = Utils.Number.formatBigNumber(coin.volume);
+	const usedEmission = Utils.Number.formatBigNumber(coin.availableSupply);
 
 	const onFavoriteClick = () => {
 		if (favorites.includes(coin.id)) {
@@ -55,7 +54,7 @@ export const MainInfinityItem = (props: IMainInfinityItemProps) => {
 			</div>
 
 			<div className={styles.Price}>
-				$ {CorrectPrice(coin.price)}
+				$ {Utils.Number.formatPrice(coin.price)}
 			</div>
 
 			<PercentageColor percent={coin.priceChange1h}/>

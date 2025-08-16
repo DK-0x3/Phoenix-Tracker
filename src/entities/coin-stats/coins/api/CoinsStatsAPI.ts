@@ -38,7 +38,7 @@ export const CoinsStatsAPI = createApi({
 				return `${queryString ? `?${queryString}` : ''}`;
 			},
 			keepUnusedDataFor: 300,
-		})
+		}),
 	}),
 });
 
