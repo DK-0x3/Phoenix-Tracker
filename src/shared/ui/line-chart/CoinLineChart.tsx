@@ -1,13 +1,16 @@
 // eslint-disable-next-line import/named
 import { ColorType, CrosshairMode, LineStyle, PriceLineOptions } from 'lightweight-charts';
 import { useLightWeightChartLine } from '../../../entities/light-charts/hooks/useLightWeightChartLine';
-import { FC, useEffect } from 'react';
-import styles from './LineChart.module.scss';
+import { FC, useEffect, useState } from 'react';
+import styles from './CoinLineChart.module.scss';
 import { cn } from '../../lib/cn/cn';
 import { ToggleSwitch } from '../toggle-switch/ToggleSwitch';
 import { useGetCoinByIdQuery, useGetCoinChartByIdQuery } from '../../../entities/coin-gecko/coins/api/CoinsGeckoAPI';
 import { Skeleton } from '../skeleton/Skeleton';
 import { useTranslation } from 'react-i18next';
+import IDropdownItem from '../drop-down-list-menu/types/IDropdownItem';
+import IBaseMenuItemValue from '../drop-down-list-menu/types/IBaseMenuItemValue';
+import { DropdownMenu } from '../drop-down-list-menu/DropDownListMenu';
 
 type ICoinLineChartProps = {
     isEnableOptions: boolean;
@@ -15,11 +18,26 @@ type ICoinLineChartProps = {
     className?: string;
 };
 
-export const LineChart: FC<ICoinLineChartProps> = (props) => {
+interface ICoinTimeZoneValue extends IBaseMenuItemValue {
+    days: number;
+}
+
+export const CoinLineChart: FC<ICoinLineChartProps> = (props) => {
 	const { isEnableOptions, className, coinId } = props;
 	const { t } = useTranslation();
 
-	const priceLineATHOptins: PriceLineOptions = {
+	const CoinTimeZone: IDropdownItem<ICoinTimeZoneValue>[] = [
+		{ value: { id: '1', days: 1 }, label: t('24ч') },
+		{ value: { id: '30', days: 30 }, label: t('30 д') },
+		{ value: { id: '90', days: 90 }, label: t('90 д') },
+		{ value: { id: '180', days: 180 }, label: t('180 д') },
+		{ value: { id: '365', days: 365 }, label: t('1 год') },
+	];
+
+	const [labelDropDownTimeZone, setLabelDropDownTimeZone] =
+        useState<IDropdownItem<ICoinTimeZoneValue>>(CoinTimeZone[0]);
+
+	const priceLineATOptions: PriceLineOptions = {
 		id: 'ATH',
 		price: 0.6,
 		color: '#4b00f9',
@@ -31,7 +49,7 @@ export const LineChart: FC<ICoinLineChartProps> = (props) => {
 		axisLabelColor: 'black',
 		axisLabelTextColor: 'white',
 	};
-	const priceLineATLOptins: PriceLineOptions = {
+	const priceLineATLOptions: PriceLineOptions = {
 		id: 'ATL',
 		price: 5,
 		color: '#ff0000',
@@ -43,9 +61,10 @@ export const LineChart: FC<ICoinLineChartProps> = (props) => {
 		axisLabelColor: 'black',
 		axisLabelTextColor: 'white',
 	};
-
-	const { data: chartData, isLoading: chartIsLoading, error: chartError } = useGetCoinChartByIdQuery({ coinId });
-	const { data: coinData, isLoading: coinIsLoading, error: coinError } = useGetCoinByIdQuery(coinId);
+	 
+	const { data: chartData, isLoading: chartIsLoading, error: chartError } =
+        useGetCoinChartByIdQuery({ coinId, days: labelDropDownTimeZone.value.id });
+	const { data: coinData, error: coinError } = useGetCoinByIdQuery(coinId);
 
 	const { containerRef, togglePriceLine } = useLightWeightChartLine({
 		data: [{
@@ -88,8 +107,8 @@ export const LineChart: FC<ICoinLineChartProps> = (props) => {
 	useEffect(() => {
 		if (!coinData) return;
 
-		priceLineATHOptins.price = coinData.market_data.ath.usd ?? 0;
-		priceLineATLOptins.price = coinData.market_data.atl.usd ?? 0;
+		priceLineATOptions.price = coinData.market_data.ath.usd ?? 0;
+		priceLineATLOptions.price = coinData.market_data.atl.usd ?? 0;
 	}, [coinData]);
 
 	if (chartIsLoading || !chartData) {
@@ -109,19 +128,35 @@ export const LineChart: FC<ICoinLineChartProps> = (props) => {
 	}
 
 	const handleATH = (isEnable: boolean) => {
+		priceLineATOptions.price = coinData?.market_data.ath.usd ?? 0;
+		priceLineATLOptions.price = coinData?.market_data.atl.usd ?? 0;
+        
 		if (isEnable) {
-			togglePriceLine(0, priceLineATHOptins, true);
+			togglePriceLine(0, priceLineATOptions, true);
 			return;
 		}
-		togglePriceLine(0, priceLineATHOptins, false);
+		togglePriceLine(0, priceLineATOptions, false);
 	};
 
 	const handleATL = (isEnable: boolean) => {
+		priceLineATOptions.price = coinData?.market_data.ath.usd ?? 0;
+		priceLineATLOptions.price = coinData?.market_data.atl.usd ?? 0;
+        
 		if (isEnable) {
-			togglePriceLine(0, priceLineATLOptins, true);
+			togglePriceLine(0, priceLineATLOptions, true);
 			return;
 		}
-		togglePriceLine(0, priceLineATLOptins, false);
+		togglePriceLine(0, priceLineATLOptions, false);
+	};
+
+	const handleSelectTimeZone = (value: IDropdownItem<IBaseMenuItemValue>) => {
+		CoinTimeZone.forEach((option) => {
+			if (option.value.id === value.value.id) {
+				setLabelDropDownTimeZone(option);
+
+				return;
+			}
+		});
 	};
 
 	return (
@@ -130,29 +165,39 @@ export const LineChart: FC<ICoinLineChartProps> = (props) => {
 
 			<div className={cn(!isEnableOptions && styles.OptionsHide, styles.Options)}>
 				<div className={styles.TimeOption}>
-					<div>
-						24ч
-					</div>
-					<div>
-						30д
-					</div>
-					<div>
-						90д
-					</div>
-					<div>
-						180д
-					</div>
-					<div>
-						1год
-					</div>
+					<DropdownMenu
+						buttonStyle={{
+							backgroundColor: 'transparent',
+							border: '1px solid var(--dark-gray)',
+							boxShadow: 'none',
+						}}
+						menuStyle={{
+							backgroundColor: 'var(--color-dark-600)',
+							display: 'flex',
+						}}
+						itemClassName={styles.DropDownTimeItem}
+						onSelect={handleSelectTimeZone}
+						label={labelDropDownTimeZone.label}
+						items={CoinTimeZone}
+						placement='top'
+					/>
 				</div>
+
 				<div className={styles.OtherOptions}>
 					<div>
-						<ToggleSwitch label='ATH' onChange={handleATH}/>
+						<ToggleSwitch
+							backgroundColorChecked='var(--orange)'
+							label='ATH'
+							onChange={handleATH}
+						/>
 					</div>
 
 					<div>
-						<ToggleSwitch label='ATL' onChange={handleATL}/>
+						<ToggleSwitch
+							backgroundColorChecked='var(--orange)'
+							label='ATL'
+							onChange={handleATL}
+						/>
 					</div>
 				</div>
 			</div>

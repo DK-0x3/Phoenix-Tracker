@@ -49,12 +49,26 @@ export function useLightWeightChartLine(props: ILightWeightChartLineProps) {
 			chart.remove();
 		};
 	}, [JSON.stringify(data)]);
+    
+	/** 🔧 Обновить все данные серии */
+	const updateLineData = (seriesIndex: number, lineData: LineData[]) => {
+		const lineSeries = seriesRef.current[seriesIndex];
+		if (!lineSeries) throw new Error(`Series ${seriesIndex} not found`);
+		lineSeries.setData(lineData);
+	};
+
+	/** 🔧 Добавить новую точку в конец (например, для real-time обновлений) */
+	const updateLastPoint = (seriesIndex: number, point: LineData) => {
+		const lineSeries = seriesRef.current[seriesIndex];
+		if (!lineSeries) throw new Error(`Series ${seriesIndex} not found`);
+		lineSeries.update(point);
+	};
 
 	const togglePriceLine = (seriesIndex: number, options: PriceLineOptions, enable: boolean) => {
 		const lineSeries = seriesRef.current[seriesIndex];
 		if (!lineSeries) {
 			throw new Error('The seriesIndex is required in Series');
-		};
+		}
 
 		if (!options.id) {
 			throw new Error('The id is required in Options');
@@ -91,5 +105,5 @@ export function useLightWeightChartLine(props: ILightWeightChartLineProps) {
 		}
 	};
 
-	return { containerRef, chart: chartRef, series: seriesRef, togglePriceLine };
+	return { containerRef, chart: chartRef, series: seriesRef, updateLineData, updateLastPoint, togglePriceLine };
 }

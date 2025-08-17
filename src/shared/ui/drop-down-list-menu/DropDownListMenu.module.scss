@@ -1,0 +1,87 @@
+.dd {
+  position: relative;
+  display: inline-block;
+}
+
+.ddmButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 4px 14px rgba(37,99,235,.25);
+}
+
+.ddmButton:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.45);
+  outline-offset: 2px;
+}
+
+.ddmMenu {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+
+  position: absolute;
+  z-index: 9999;
+  min-width: 180px;
+  border-radius: 10px;
+  transform-origin: top;
+
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+
+  &.open {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  &.placement-bottom {
+    transform-origin: top center;
+  }
+
+  &.placement-top {
+    transform-origin: bottom center;
+  }
+
+  &.placement-left {
+    transform-origin: right center;
+  }
+
+  &.placement-right {
+    transform-origin: left center;
+  }
+}
+
+.ddmItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &[aria-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  > span:first-child {
+    display: inline-flex;
+    margin-right: 8px;
+    align-items: center;
+  }
+}

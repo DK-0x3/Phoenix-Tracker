@@ -1,4 +1,4 @@
-import { BaseQueryMeta, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ENV } from '../../../../shared/types/ENV';
 import IGetListCoinGeckoResponse from '../model/types/IGetListCoinGeckoResponse';
 import IGetCoinsMarketsGeckoResponse from '../model/types/IGetCoinsMarketsGeckoResponse';

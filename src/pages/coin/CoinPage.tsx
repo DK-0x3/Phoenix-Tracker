@@ -7,24 +7,15 @@ import { useTranslation } from 'react-i18next';
 import Utils from '../../shared/lib/utils/Utils';
 import { PercentageColor } from '../../shared/ui/percentage-color/PercentageColor';
 import InfoIcon from '../../shared/assets/svg/info.svg';
-import { LineChart } from '../../shared/ui/line-chart/LineChart';
+import { CoinLineChart } from '../../shared/ui/line-chart/CoinLineChart';
 
 export const CoinPage = () => {
 	const { CoinId } = useParams<ICoinParam>();
 	const { t } = useTranslation();
 
 	if (!CoinId) {
-		// Можно перенаправить на страницу ошибки или на главную
 		return <Navigate to={ROUTES.NOT_FOUND} replace />;
 	}
-
-	// const navigate = useNavigate();
-	//
-	// useEffect(() => {
-	// 	if (!CoinId) {
-	// 		navigate(ROUTES.NOT_FOUND);
-	// 	}
-	// }, [CoinId, navigate]);
 
 	const { data, isLoading, error } = useGetCoinByIdQuery(CoinId, {
 		pollingInterval: Utils.Time.minutesToMs(5),
@@ -97,7 +88,7 @@ export const CoinPage = () => {
 
 			<div className={styles.CoinPageMain}>
 				<div className={styles.ChartContainer}>
-					<LineChart coinId={CoinId} isEnableOptions={true} className={styles.Chart}/>
+					<CoinLineChart coinId={CoinId} isEnableOptions={true} className={styles.Chart}/>
 				</div>
 			</div>
 		</div>
