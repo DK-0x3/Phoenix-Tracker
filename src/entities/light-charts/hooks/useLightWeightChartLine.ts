@@ -50,14 +50,14 @@ export function useLightWeightChartLine(props: ILightWeightChartLineProps) {
 		};
 	}, [JSON.stringify(data)]);
     
-	/** 🔧 Обновить все данные серии */
+	/** Обновить все данные серии */
 	const updateLineData = (seriesIndex: number, lineData: LineData[]) => {
 		const lineSeries = seriesRef.current[seriesIndex];
 		if (!lineSeries) throw new Error(`Series ${seriesIndex} not found`);
 		lineSeries.setData(lineData);
 	};
 
-	/** 🔧 Добавить новую точку в конец (например, для real-time обновлений) */
+	/** Добавить новую точку в конец (например, для real-time обновлений) */
 	const updateLastPoint = (seriesIndex: number, point: LineData) => {
 		const lineSeries = seriesRef.current[seriesIndex];
 		if (!lineSeries) throw new Error(`Series ${seriesIndex} not found`);
