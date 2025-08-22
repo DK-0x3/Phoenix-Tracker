@@ -2,14 +2,14 @@ import { InfiniteScroll } from '../../../shared/ui/infinite-scroll/ui/InfiniteSc
 import { ICoin } from '../../../shared/types/ICoin';
 import styles from './FavoriteInfinityScroll.module.scss';
 import { MainInfinityItem } from '../../main-infinity-scroll/ui/item/MainInfinityItem';
-import { useLazyGetCoinsMarketsQuery } from '../../../entities/coin-gecko/coins/api/CoinsGeckoAPI';
+import { CoinsGeckoAPI } from '../../../entities/coin-gecko/coins/api/CoinsGeckoAPI';
 import { useSelector } from 'react-redux';
 import { getFavoriteCoins } from '../../../entities/coin-stats/coins/model/store/FavoriteCoinsSelectors';
 import { useTranslation } from 'react-i18next';
 
 export const FavoriteInfinityScroll = () => {
 	const { t } = useTranslation();
-	const [triggerGetCoins] = useLazyGetCoinsMarketsQuery();
+	const [triggerGetCoins] = CoinsGeckoAPI.endpoints.getCoinsMarkets.useLazyQuery();
 
 	const favorites = useSelector(getFavoriteCoins);
 

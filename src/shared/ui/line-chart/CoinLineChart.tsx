@@ -5,7 +5,9 @@ import { FC, useEffect, useState } from 'react';
 import styles from './CoinLineChart.module.scss';
 import { cn } from '../../lib/cn/cn';
 import { ToggleSwitch } from '../toggle-switch/ToggleSwitch';
-import { useGetCoinByIdQuery, useGetCoinChartByIdQuery } from '../../../entities/coin-gecko/coins/api/CoinsGeckoAPI';
+import {
+	CoinsGeckoAPI,
+} from '../../../entities/coin-gecko/coins/api/CoinsGeckoAPI';
 import { Skeleton } from '../skeleton/Skeleton';
 import { useTranslation } from 'react-i18next';
 import IDropdownItem from '../drop-down-list-menu/types/IDropdownItem';
@@ -63,8 +65,8 @@ export const CoinLineChart: FC<ICoinLineChartProps> = (props) => {
 	};
 	 
 	const { data: chartData, isLoading: chartIsLoading, error: chartError } =
-        useGetCoinChartByIdQuery({ coinId, days: labelDropDownTimeZone.value.id });
-	const { data: coinData, error: coinError } = useGetCoinByIdQuery(coinId);
+        CoinsGeckoAPI.endpoints.getCoinChartById.useQuery({ coinId, days: labelDropDownTimeZone.value.id });
+	const { data: coinData, error: coinError } = CoinsGeckoAPI.endpoints.getCoinById.useQuery(coinId);
 
 	const { containerRef, togglePriceLine } = useLightWeightChartLine({
 		data: [{

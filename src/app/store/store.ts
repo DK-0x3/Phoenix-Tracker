@@ -6,6 +6,7 @@ import storage from 'redux-persist/lib/storage';
 import { CoinsStatsAPI } from '../../entities/coin-stats/coins/api/CoinsStatsAPI';
 import { CoinsGeckoAPI } from '../../entities/coin-gecko/coins/api/CoinsGeckoAPI';
 import { GlobalGeckoAPI } from '../../entities/coin-gecko/global/api/GlobalGeckoAPI';
+import { CbrAPI } from '../../entities/cbr/api/CbrAPI';
 
 const persistConfig = {
 	key: 'root',
@@ -15,6 +16,7 @@ const persistConfig = {
 		InsightsAPI.reducerPath,
 		CoinsStatsAPI.reducerPath,
 		CoinsGeckoAPI.reducerPath,
+		CbrAPI.reducerPath,
 		GlobalGeckoAPI.reducerPath,
 		'favoriteCoinsSlice',
 	],
@@ -31,6 +33,7 @@ const store = configureStore({
 			InsightsAPI.middleware,
 			CoinsStatsAPI.middleware,
 			CoinsGeckoAPI.middleware,
+			CbrAPI.middleware,
 			GlobalGeckoAPI.middleware
 		),
 });

@@ -1,7 +1,7 @@
 import styles from './CoinPage.module.scss';
 import { Navigate, useParams } from 'react-router-dom';
 import ROUTES, { ICoinParam } from '../../app/rout/routes';
-import { useGetCoinByIdQuery } from '../../entities/coin-stats/coins/api/CoinsStatsAPI';
+import { CoinsStatsAPI } from '../../entities/coin-stats/coins/api/CoinsStatsAPI';
 import { Skeleton } from '../../shared/ui/skeleton/Skeleton';
 import { useTranslation } from 'react-i18next';
 import Utils from '../../shared/lib/utils/Utils';
@@ -17,7 +17,7 @@ export const CoinPage = () => {
 		return <Navigate to={ROUTES.NOT_FOUND} replace />;
 	}
 
-	const { data, isLoading, error } = useGetCoinByIdQuery(CoinId, {
+	const { data, isLoading, error } = CoinsStatsAPI.endpoints.getCoinById.useQuery(CoinId, {
 		pollingInterval: Utils.Time.minutesToMs(5),
 	});
 

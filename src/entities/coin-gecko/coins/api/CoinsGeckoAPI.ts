@@ -12,6 +12,10 @@ import IGetCoinChartByIdResponse, {
 import { UTCTimestamp } from 'lightweight-charts';
 import IGetCoinByIdResponse from '../model/types/getCoinById/IGetCoinByIdResponse';
 
+
+/**
+ * API для получения статистики по монетам через CoinGecko.
+ */
 export const CoinsGeckoAPI = createApi({
 	reducerPath: 'coinsGeckoAPI',
 	baseQuery: fetchBaseQuery({
@@ -23,10 +27,26 @@ export const CoinsGeckoAPI = createApi({
 	}),
 	tagTypes: [],
 	endpoints: builder => ({
+		/**
+         * Получает список всех доступных монет (id, символ, название).
+         *
+         * @endpoint GET /coins/list
+         * @returns {IGetListCoinGeckoResponse[]} массив объектов монет
+         * @cache 24 часа (86400 сек.)
+         */
 		getListCoins: builder.query<IGetListCoinGeckoResponse[], void>({
 			query: () => '/list',
 			keepUnusedDataFor: 86400, // кэш на 24 часа
 		}),
+
+		/**
+         * Получает рыночные данные по монетам: цены, капитализация, объёмы.
+         *
+         * @endpoint GET /coins/markets
+         * @param {IGetCoinsMarketsGeckoParams} params - параметры запроса (валюта, ids, лимит, страница и др.)
+         * @returns {ICoin[]} массив монет в нормализованном формате
+         * @cache 5 минут (300 сек.)
+         */
 		getCoinsMarkets: builder.query<ICoin[], IGetCoinsMarketsGeckoParams>({
 			query: (params) => {
 				const path = '/markets';
@@ -104,6 +124,15 @@ export const CoinsGeckoAPI = createApi({
 				return coins;
 			}
 		}),
+
+		/**
+         * Получает исторические данные цены монеты для графика.
+         *
+         * @endpoint GET /coins/{id}/market_chart
+         * @param {IGetCoinChartByIdParams} params - coinId, vsCurrency, days
+         * @returns {IGetCoinChartByIdResponseData} нормализованные данные для графика
+         * @cache 5 минут (300 сек.)
+         */
 		getCoinChartById: builder.query<IGetCoinChartByIdResponseData, IGetCoinChartByIdParams>({
 			query: (params) => {
 				const path = `/${params.coinId}/market_chart`;
@@ -144,6 +173,15 @@ export const CoinsGeckoAPI = createApi({
 				return result;
 			}
 		}),
+
+		/**
+         * Получает подробную информацию о монете.
+         *
+         * @endpoint GET /coins/{id}
+         * @param {string} coinId - ID монеты
+         * @returns {IGetCoinByIdResponse} данные монеты
+         * @cache 5 минут (300 сек.)
+         */
 		getCoinById: builder.query<IGetCoinByIdResponse, string>({
 			query: (coinId) => `/${coinId}`,
 			keepUnusedDataFor: 300,
@@ -153,11 +191,3 @@ export const CoinsGeckoAPI = createApi({
 		})
 	}),
 });
-
-export const {
-	useGetListCoinsQuery,
-	useGetCoinsMarketsQuery,
-	useLazyGetCoinsMarketsQuery,
-	useGetCoinChartByIdQuery,
-	useGetCoinByIdQuery,
-} = CoinsGeckoAPI;

@@ -1,6 +1,6 @@
 import styles from './DominanceWidget.module.scss';
-import { useGetGlobalQuery } from '../../../entities/coin-gecko/global/api/GlobalGeckoAPI';
-import { useGetCoinsQuery } from '../../../entities/coin-stats/coins/api/CoinsStatsAPI';
+import { GlobalGeckoAPI } from '../../../entities/coin-gecko/global/api/GlobalGeckoAPI';
+import { CoinsStatsAPI } from '../../../entities/coin-stats/coins/api/CoinsStatsAPI';
 import { Skeleton } from '../../../shared/ui/skeleton/Skeleton';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
@@ -22,8 +22,12 @@ import { useState } from 'react';
  */
 export const DominanceWidget = () => {
 	const { t } = useTranslation();
-	const { data: globalData, error: globalError, isLoading: globalIsLoading } = useGetGlobalQuery();
-	const { data: coinsData, error: coinsError, isLoading: coinsIsLoading } = useGetCoinsQuery();
+
+	const { data: globalData, error: globalError, isLoading: globalIsLoading } =
+        GlobalGeckoAPI.endpoints.getGlobalDataCoins.useQuery();
+
+	const { data: coinsData, error: coinsError, isLoading: coinsIsLoading } =
+        CoinsStatsAPI.endpoints.getCoins.useQuery();
 
 	const [hovered, setHovered] = useState(false);
 

@@ -1,5 +1,5 @@
 import styles from './CoinWidget.module.scss';
-import { useGetCoinByIdQuery } from '../../../entities/coin-stats/coins/api/CoinsStatsAPI';
+import { CoinsStatsAPI } from '../../../entities/coin-stats/coins/api/CoinsStatsAPI';
 import { Skeleton } from '../../../shared/ui/skeleton/Skeleton';
 import { useTranslation } from 'react-i18next';
 import { PercentageColor } from '../../../shared/ui/percentage-color/PercentageColor';
@@ -19,7 +19,7 @@ export const CoinWidget = (props: ICoinWidgetProps) => {
 	const { coinId } = props;
 	const { t } = useTranslation();
 
-	const { data, error, isLoading } = useGetCoinByIdQuery(coinId, {
+	const { data, error, isLoading } = CoinsStatsAPI.endpoints.getCoinById.useQuery(coinId, {
 		pollingInterval: Utils.Time.minutesToMs(5),
 	});
 

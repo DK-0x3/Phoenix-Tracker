@@ -26,7 +26,7 @@ export const useFearAndGreedData = (): IUseFearAndGreedData => {
 	} = useFetchFearAndGreedQuery();
 
 	useEffect(() => {
-		if (data?.fetchedAt && Utils.Date.isExpiredByUTC(data.fetchedAt)) {
+		if (data?.fetchedAt && Utils.Date.isExpiredByTimeOfDay(data.fetchedAt, '00:00:00Z')) {
 			refetch();
 		}
 	}, [data, refetch]);

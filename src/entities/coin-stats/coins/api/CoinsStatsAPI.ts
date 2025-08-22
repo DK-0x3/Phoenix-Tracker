@@ -4,6 +4,10 @@ import { ICoin } from '../../../../shared/types/ICoin';
 import IGetCoinsResponse from '../model/types/IGetCoinsResponce';
 import IGetCoinsParams from '../model/types/IGetCoinsParams';
 
+
+/**
+ * API для получения статистики по монетам через CoinStats.
+ */
 export const CoinsStatsAPI = createApi({
 	reducerPath: 'coinsStatsAPI',
 	baseQuery: fetchBaseQuery({
@@ -15,6 +19,14 @@ export const CoinsStatsAPI = createApi({
 	}),
 	tagTypes: [],
 	endpoints: builder => ({
+		/**
+         * Получает данные конкретной монеты по её идентификатору.
+         *
+         * @endpoint GET /coins/{coinId}
+         * @param {string} coinId - идентификатор монеты
+         * @returns {ICoin} данные монеты
+         * @cache 5 минут (300 сек.)
+         */
 		getCoinById: builder.query<ICoin, string>({
 			query: (coinId) => `/${coinId}`,
 			keepUnusedDataFor: 300,
@@ -22,6 +34,20 @@ export const CoinsStatsAPI = createApi({
 				...response,
 			}),
 		}),
+
+		/**
+         * Получает список монет с возможностью фильтрации по странице, лимиту, валюте, имени или символу.
+         *
+         * @endpoint GET /coins
+         * @param {IGetCoinsParams} [params] - параметры запроса:
+         *   - page: номер страницы
+         *   - limit: количество монет на странице
+         *   - currency: валюта для цены
+         *   - name: фильтр по имени монеты
+         *   - symbol: фильтр по символу монеты
+         * @returns {IGetCoinsResponse} список монет с метаданными
+         * @cache 5 минут (300 сек.)
+         */
 		getCoins: builder.query<IGetCoinsResponse, IGetCoinsParams | void>({
 			query: (params) => {
 				if (!params) return '';
@@ -41,5 +67,3 @@ export const CoinsStatsAPI = createApi({
 		}),
 	}),
 });
-
-export const { useGetCoinByIdQuery, useGetCoinsQuery, useLazyGetCoinByIdQuery, useLazyGetCoinsQuery } = CoinsStatsAPI;

@@ -5,6 +5,7 @@ import { CoinsStatsAPI } from '../../entities/coin-stats/coins/api/CoinsStatsAPI
 import { CoinsGeckoAPI } from '../../entities/coin-gecko/coins/api/CoinsGeckoAPI';
 import { GlobalGeckoAPI } from '../../entities/coin-gecko/global/api/GlobalGeckoAPI';
 import favoriteCoinsSlice from '../../entities/coin-stats/coins/model/store/FavoriteCoinsSlice';
+import { CbrAPI } from '../../entities/cbr/api/CbrAPI';
 
 export const reducers = combineReducers({
 	sessionSlice: sessionSlice,
@@ -13,4 +14,5 @@ export const reducers = combineReducers({
 	[CoinsStatsAPI.reducerPath]: CoinsStatsAPI.reducer,
 	[CoinsGeckoAPI.reducerPath]: CoinsGeckoAPI.reducer,
 	[GlobalGeckoAPI.reducerPath]: GlobalGeckoAPI.reducer,
+	[CbrAPI.reducerPath]: CbrAPI.reducer,
 });
