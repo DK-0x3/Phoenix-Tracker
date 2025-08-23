@@ -3,6 +3,7 @@ import { FearGreedWidget } from '../../panel-widgets/fear-greed/FearGreedWidget'
 import { useEffect, useRef } from 'react';
 import { CoinWidget } from '../../panel-widgets/coin/CoinWidget';
 import { DominanceWidget } from '../../panel-widgets/dominance/DominanceWidget';
+import { FiatWidget } from '../../panel-widgets/fiat/FiatWidget';
 
 export const PanelWidgetsContainer = () => {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -28,7 +29,8 @@ export const PanelWidgetsContainer = () => {
 				<CoinWidget coinId='bitcoin'/>
 				<CoinWidget coinId='ethereum'/>
 				<DominanceWidget/>
-				<div style={{ backgroundColor: 'red' }}></div>
+				<FiatWidget/>
+				{/*<div style={{ backgroundColor: 'red' }}></div>*/}
 				<div style={{ backgroundColor: 'red' }}></div>
 			</div>
 		</div>

@@ -1,23 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { reducers } from './reducers';
-import { InsightsAPI } from '../../entities/coin-stats/insights/api/InsightsAPI';
+import { InsightsCoinStatsAPI } from '../../entities/coin-stats/insights/api/InsightsCoinStatsAPI';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { CoinsStatsAPI } from '../../entities/coin-stats/coins/api/CoinsStatsAPI';
 import { CoinsGeckoAPI } from '../../entities/coin-gecko/coins/api/CoinsGeckoAPI';
 import { GlobalGeckoAPI } from '../../entities/coin-gecko/global/api/GlobalGeckoAPI';
 import { CbrAPI } from '../../entities/cbr/api/CbrAPI';
+import { FiatsStatsAPI } from '../../entities/coin-stats/fiats/api/FiatsStatsAPI';
 
 const persistConfig = {
 	key: 'root',
 	version: 1,
 	storage,
 	whitelist: [
-		InsightsAPI.reducerPath,
+		InsightsCoinStatsAPI.reducerPath,
 		CoinsStatsAPI.reducerPath,
 		CoinsGeckoAPI.reducerPath,
 		CbrAPI.reducerPath,
 		GlobalGeckoAPI.reducerPath,
+		FiatsStatsAPI.reducerPath,
 		'favoriteCoinsSlice',
 	],
 };
@@ -30,11 +32,12 @@ const store = configureStore({
 		getDefaultMiddleware({
 			serializableCheck: false, // иначе redux-persist будет ругаться
 		}).concat(
-			InsightsAPI.middleware,
+			InsightsCoinStatsAPI.middleware,
 			CoinsStatsAPI.middleware,
 			CoinsGeckoAPI.middleware,
 			CbrAPI.middleware,
-			GlobalGeckoAPI.middleware
+			GlobalGeckoAPI.middleware,
+			FiatsStatsAPI.middleware,
 		),
 });
 

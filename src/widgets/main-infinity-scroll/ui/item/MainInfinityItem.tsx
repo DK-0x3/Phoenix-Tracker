@@ -10,8 +10,10 @@ import {
 } from '../../../../entities/coin-stats/coins/model/store/FavoriteCoinsSlice';
 import { useSelector } from 'react-redux';
 import { getFavoriteCoins } from '../../../../entities/coin-stats/coins/model/store/FavoriteCoinsSelectors';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Utils from '../../../../shared/lib/utils/Utils';
+import { useNavigate } from 'react-router-dom';
+import ROUTES from '../../../../app/rout/routes';
 
 export interface IMainInfinityItemProps {
 	coin: ICoin;
@@ -19,6 +21,8 @@ export interface IMainInfinityItemProps {
 
 export const MainInfinityItem = (props: IMainInfinityItemProps) => {
 	const { coin } = props;
+
+	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
 	const favorites = useSelector(getFavoriteCoins);
@@ -29,7 +33,9 @@ export const MainInfinityItem = (props: IMainInfinityItemProps) => {
 	const volume = Utils.Number.formatBigNumber(coin.volume);
 	const usedEmission = Utils.Number.formatBigNumber(coin.availableSupply);
 
-	const onFavoriteClick = () => {
+	const onFavoriteClick = (ev: React.MouseEvent<HTMLDivElement>) => {
+		ev.stopPropagation();
+        
 		if (favorites.includes(coin.id)) {
 			setIsFavorite(false);
 			dispatch(deleteFavoriteCoin(coin.id));
@@ -40,8 +46,12 @@ export const MainInfinityItem = (props: IMainInfinityItemProps) => {
 		dispatch(addFavoriteCoin(coin.id));
 	};
 
+	const handleCoinClick = () => {
+		navigate(`${ROUTES.COIN}/${coin.id}`);
+	};
+
 	return (
-		<div className={styles.MainInfinityItem}>
+		<div className={styles.MainInfinityItem} onClick={handleCoinClick}>
 			<div>
 				{coin.rank}
 			</div>
@@ -76,7 +86,6 @@ export const MainInfinityItem = (props: IMainInfinityItemProps) => {
 			<div className={styles.Star} onClick={onFavoriteClick}>
 				<StarSVG style={{ fill: isFavorite ? 'var(--orange)' : 'var(--dark-gray)' }}/>
 			</div>
-
 		</div>
 	);
 };

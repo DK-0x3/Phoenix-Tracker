@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/named
-import { ColorType, CrosshairMode, LineStyle, PriceLineOptions } from 'lightweight-charts';
+import { ColorType, CrosshairMode, LineData, LineStyle, PriceLineOptions } from 'lightweight-charts';
 import { useLightWeightChartLine } from '../../../entities/light-charts/hooks/useLightWeightChartLine';
 import { FC, useEffect, useState } from 'react';
 import styles from './CoinLineChart.module.scss';
@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import IDropdownItem from '../drop-down-list-menu/types/IDropdownItem';
 import IBaseMenuItemValue from '../drop-down-list-menu/types/IBaseMenuItemValue';
 import { DropdownMenu } from '../drop-down-list-menu/DropDownListMenu';
+import Utils from '../../lib/utils/Utils';
 
 type ICoinLineChartProps = {
     isEnableOptions: boolean;
@@ -27,6 +28,8 @@ interface ICoinTimeZoneValue extends IBaseMenuItemValue {
 export const CoinLineChart: FC<ICoinLineChartProps> = (props) => {
 	const { isEnableOptions, className, coinId } = props;
 	const { t } = useTranslation();
+
+	const [currentCrosshairPrice, setCurrentCrosshairPrice] = useState<string>('');
 
 	const CoinTimeZone: IDropdownItem<ICoinTimeZoneValue>[] = [
 		{ value: { id: '1', days: 1 }, label: t('24ч') },
@@ -63,18 +66,20 @@ export const CoinLineChart: FC<ICoinLineChartProps> = (props) => {
 		axisLabelColor: 'black',
 		axisLabelTextColor: 'white',
 	};
-	 
+
 	const { data: chartData, isLoading: chartIsLoading, error: chartError } =
         CoinsGeckoAPI.endpoints.getCoinChartById.useQuery({ coinId, days: labelDropDownTimeZone.value.id });
 	const { data: coinData, error: coinError } = CoinsGeckoAPI.endpoints.getCoinById.useQuery(coinId);
 
-	const { containerRef, togglePriceLine } = useLightWeightChartLine({
-		data: [{
-			lineData: chartData?.prices ?? [],
-			config: {
-				color: '#F7A600',
+	const { containerRef, togglePriceLine, chart, series } = useLightWeightChartLine({
+		data: [
+			{
+				lineData: chartData?.prices ?? [],
+				config: {
+					color: '#F7A600',
+				}
 			}
-		}],
+		],
 		chartOptions: {
 			autoSize: true,
 			layout: {
@@ -105,6 +110,31 @@ export const CoinLineChart: FC<ICoinLineChartProps> = (props) => {
 			}
 		}
 	});
+
+	useEffect(() => {
+		if (!chart.current || !series.current) return;
+
+		chart.current.subscribeCrosshairMove(param => {
+			if (param.time) {
+				const dataPoint = param.seriesData.get(series.current[0]) as LineData;
+				const price = Utils.Number.formatPrice(dataPoint.value);
+
+				setCurrentCrosshairPrice(`$ ${price}`);
+			} else {
+				setCurrentCrosshairPrice('');
+			}
+		});
+
+
+		// setTimeout(() => {
+		// 	if (chartData) {
+		// 		series.current[0].setData(chartData.marketCaps);
+		// 		series.current[0].applyOptions({
+		// 			color: '#FF0000'
+		// 		});
+		// 	}
+		// }, 2000);
+	}, [chart, series, chartData]);
 
 	useEffect(() => {
 		if (!coinData) return;
@@ -155,7 +185,6 @@ export const CoinLineChart: FC<ICoinLineChartProps> = (props) => {
 		CoinTimeZone.forEach((option) => {
 			if (option.value.id === value.value.id) {
 				setLabelDropDownTimeZone(option);
-
 				return;
 			}
 		});
@@ -163,7 +192,13 @@ export const CoinLineChart: FC<ICoinLineChartProps> = (props) => {
 
 	return (
 		<div className={cn(styles.LineChart, className, !isEnableOptions && styles.LineChartExpand)}>
-			<div className={styles.MainChart} ref={containerRef}/>
+			<div className={styles.MainChartContainer}>
+				<div className={styles.MainChart} ref={containerRef}/>
+
+				<div className={styles.MainChartOverlay}>
+					{currentCrosshairPrice}
+				</div>
+			</div>
 
 			<div className={cn(!isEnableOptions && styles.OptionsHide, styles.Options)}>
 				<div className={styles.TimeOption}>

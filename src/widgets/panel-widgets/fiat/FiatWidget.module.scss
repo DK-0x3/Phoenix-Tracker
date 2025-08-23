@@ -1,0 +1,74 @@
+.FiatWidget {
+  height: 100%;
+  background-color: var(--color-dark-700);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--box-shadow-dark-700);
+
+  .FiatWidgetOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    .Logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: auto;
+      transition: height 0.3s ease, opacity 0.3s ease;
+      opacity: 0.5;
+    }
+  }
+
+  .FiatWidgetContent {
+    position: relative;
+    display: grid;
+    grid-template-rows: 33% 33% 33%;
+    grid-template-columns: 50% 50%;
+    z-index: 10;
+    height: 100%;
+    font-size: 22px;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+
+    .Title {
+      display: flex;
+      justify-self: start;
+      gap: 10px;
+
+      img {
+        height: 30px;
+      }
+    }
+
+    .Value {
+      justify-self: end;
+    }
+
+    .Price {
+      color: var(--orange);
+      font-weight: bold;
+    }
+
+     .Currency {
+       color: var(--dark-gray);
+       font-weight: bold;
+     }
+  }
+
+  &:hover {
+    .FiatWidgetOverlay {
+      .ImgTop1,
+      .ImgTop2,
+      .ImgTop3,
+      .ImgTop4,{
+        opacity: 0.2;
+      }
+    }
+  }
+}

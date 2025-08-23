@@ -158,13 +158,29 @@ export const CoinsGeckoAPI = createApi({
 					totalVolumes: [],
 				};
 
-				console.log(response);
-
 				response.prices.forEach(dotInfo => {
 					const time = dotInfo[0] ? dotInfo[0] : 0;
 					const price = dotInfo[1] ? dotInfo[1] : 0;
 
 					result.prices.push({
+						time: Math.floor(time / 1000) as UTCTimestamp,
+						value: price,
+					});
+				});
+				response.market_caps.forEach(dotInfo => {
+					const time = dotInfo[0] ? dotInfo[0] : 0;
+					const price = dotInfo[1] ? dotInfo[1] : 0;
+
+					result.marketCaps.push({
+						time: Math.floor(time / 1000) as UTCTimestamp,
+						value: price,
+					});
+				});
+				response.total_volumes.forEach(dotInfo => {
+					const time = dotInfo[0] ? dotInfo[0] : 0;
+					const price = dotInfo[1] ? dotInfo[1] : 0;
+
+					result.totalVolumes.push({
 						time: Math.floor(time / 1000) as UTCTimestamp,
 						value: price,
 					});
