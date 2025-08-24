@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import Utils from '../../shared/lib/utils/Utils';
 import { PercentageColor } from '../../shared/ui/percentage-color/PercentageColor';
 import InfoIcon from '../../shared/assets/svg/info.svg';
-import { CoinLineChart } from '../../shared/ui/line-chart/CoinLineChart';
+import { CoinChart } from '../../widgets/line-chart/ui/CoinChart';
 
 export const CoinPage = () => {
 	const { CoinId } = useParams<ICoinParam>();
@@ -88,7 +88,7 @@ export const CoinPage = () => {
 
 			<div className={styles.CoinPageMain}>
 				<div className={styles.ChartContainer}>
-					<CoinLineChart coinId={CoinId} isEnableOptions={true} className={styles.Chart}/>
+					<CoinChart coinId={CoinId} isEnableOptions={true} className={styles.Chart}/>
 				</div>
 			</div>
 		</div>
