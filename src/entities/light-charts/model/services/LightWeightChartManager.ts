@@ -83,7 +83,7 @@ class LightWeightChartManager {
 				subscribers.forEach(subscriber => {
 					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-expect-error
-					subscriber(point);
+					subscriber.action(point);
 				});
 			}
 		});

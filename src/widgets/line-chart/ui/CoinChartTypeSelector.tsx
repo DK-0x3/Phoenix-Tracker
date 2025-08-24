@@ -1,12 +1,12 @@
 import { DropdownMenu } from '../../../shared/ui/drop-down-list-menu/DropDownListMenu';
 import IDropdownItem from '../../../shared/ui/drop-down-list-menu/types/IDropdownItem';
 import styles from './CoinChart.module.scss';
-import ICoinTimeZoneValue from '../types/ICoinTimeZoneValue';
+import IBaseMenuItemValue from '../../../shared/ui/drop-down-list-menu/types/IBaseMenuItemValue';
 
-export const CoinTimeSelector = ({ items, value, onSelect }: {
-    items: IDropdownItem<ICoinTimeZoneValue>[],
-    value: IDropdownItem<ICoinTimeZoneValue>,
-    onSelect: (value: IDropdownItem<ICoinTimeZoneValue>) => void
+export const CoinChartTypeSelector = ({ items, value, onSelect }: {
+    items: IDropdownItem<IBaseMenuItemValue>[],
+    value: IDropdownItem<IBaseMenuItemValue>,
+    onSelect: (value: IDropdownItem<IBaseMenuItemValue>) => void
 }) => (
 	<DropdownMenu
 		buttonStyle={{

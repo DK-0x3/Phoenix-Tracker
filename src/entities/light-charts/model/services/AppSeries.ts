@@ -24,7 +24,10 @@ export type SeriesDataItem<T extends keyof ISeriesTypeMap> = ISeriesTypeMap[T]['
  */
 class AppSeries<T extends SeriesType> {
 	public readonly type: T;
-	private readonly crosshairMoveSubscribers: crosshairMoveSubscriberType<T>[];
+	private readonly crosshairMoveSubscribers: {
+        action: crosshairMoveSubscriberType<T>;
+        id: string;
+    }[];
     
 	private api: ISeriesApi<T> | null;
 
@@ -121,9 +124,21 @@ class AppSeries<T extends SeriesType> {
 	/**
      * Добавляет подписку на событие движения crosshair.
      * @param subscriber - callback, который будет вызываться при изменении позиции
+     * @param id
      */
-	public addSubscribeCrosshairMove = (subscriber: crosshairMoveSubscriberType<T>)=> {
-		this.crosshairMoveSubscribers.push(subscriber);
+	public addSubscribeCrosshairMove = (subscriber: crosshairMoveSubscriberType<T>, id: string)=> {
+		this.crosshairMoveSubscribers.push({
+			action: subscriber,
+			id,
+		});
+	};
+
+	public removeSubscribeCrosshairMove = (id: string) => {
+		const sub = this.crosshairMoveSubscribers.findIndex(subscriber => subscriber.id === id);
+
+		if (sub !== -1) {
+			this.crosshairMoveSubscribers.splice(sub, 1);
+		}
 	};
 
 	/** Возвращает список всех подписчиков движения crosshair */
